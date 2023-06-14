@@ -1,2 +1,0 @@
-/usr/bin/ar qc libgraph_lib.a CMakeFiles/graph_lib.dir/edge.cpp.o CMakeFiles/graph_lib.dir/edge_iterator.cpp.o CMakeFiles/graph_lib.dir/edge_range.cpp.o CMakeFiles/graph_lib.dir/graph.cpp.o
-/usr/bin/ranlib libgraph_lib.a

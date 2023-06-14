@@ -1,6 +1,0 @@
-/home/ilyas/cppa/graph_exercice_edu/build/CMakeFiles/main.dir
-/home/ilyas/cppa/graph_exercice_edu/build/CMakeFiles/edit_cache.dir
-/home/ilyas/cppa/graph_exercice_edu/build/CMakeFiles/rebuild_cache.dir
-/home/ilyas/cppa/graph_exercice_edu/build/graph/CMakeFiles/graph_lib.dir
-/home/ilyas/cppa/graph_exercice_edu/build/graph/CMakeFiles/edit_cache.dir
-/home/ilyas/cppa/graph_exercice_edu/build/graph/CMakeFiles/rebuild_cache.dir
