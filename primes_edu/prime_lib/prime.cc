@@ -1,7 +1,7 @@
 #include "include/prime_lib.hh"
 
 
-prime_number_range::iterator::iterator(prime_number_range& range, int curr)
+prime_number_range::iterator::iterator(const prime_number_range& range, std::size_t curr)
     : range(range), curr(curr)
     {}
 
@@ -14,16 +14,22 @@ prime_number_range::iterator prime_number_range::iterator::operator++(){
     return *this;
 }
 
-bool prime_number_range::iterator::operator!=(const prime_number_range::iterator& other) const{
+bool prime_number_range::iterator::operator!=(const prime_number_range::iterator other) const{
     return curr != other.curr;
 }
+
+bool prime_number_range::iterator::operator==(const prime_number_range::iterator other) const  {
+    return !(*this == other);
+}
+
 prime_number_range::iterator prime_number_range::begin(){
-    return iterator(*this, 0);
+    return iterator(*this);
 }
 
 prime_number_range::iterator prime_number_range::end(){
     return iterator(*this, prime_numbers.size());
 }
+
 
 prime_number_range::prime_number_range(std::size_t count)
     : count_(count)
