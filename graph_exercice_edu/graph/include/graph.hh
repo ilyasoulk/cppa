@@ -1,0 +1,106 @@
+#pragma once
+#include <vector>
+
+// Includes here
+
+// Fwd declarations
+
+// edges of the graph
+template<class STATE, class EDATA>
+class edge;
+// iterator over edges of the graph
+template<class STATE, class EDATA>
+class edge_iterator;
+// wrapper class to return the begin and end iterator
+// of a state
+template<class STATE, class EDATA>
+class edge_range;
+// The actual graph
+template<class STATE, class EDATA>
+class graph;
+
+template<class STATE, class EDATA>
+class edge{
+public:
+  using state_type = STATE;
+  using data_type = EDATA;
+  edge(const state_type& src, const state_type& dst, const data_type& data);
+  const state_type& src() const;
+  const state_type& dst() const;
+  const data_type& data() const;
+
+private:
+  // An EDGE needs to know at least his dst and data, depending on your implementation
+  // also the src
+  state_type src_;
+  state_type dst_;
+  data_type data_;
+
+};
+
+// An edge iterator must be able to iterate over
+// all the edges having a common src state
+template<class STATE, class EDATA>
+class edge_iterator{
+public:
+  using edge_type = graph<STATE, EDATA>::edge_type;
+
+  edge_iterator(const typename std::vector<edge_type>::const_iterator& iter);
+  bool operator!=(const edge_iterator& rhs) const;
+  bool operator==(const edge_iterator& rhs) const;
+  edge_iterator& operator++();
+  const edge_type& operator*() const;
+
+
+private:
+  typename std::vector<edge_type>::const_iterator iter_;
+
+};
+
+// Wrapper class constructed for a certain state src; needs to give access
+// to the begin and end iterator of the edges leaving src
+template<class STATE, class EDATA>
+class edge_range {
+public:
+  friend  class graph<STATE, EDATA>;
+
+  using edge_type = graph<STATE, EDATA>::edge_type;
+  using edge_iterator_type = graph<STATE, EDATA>::edge_iterator_type;
+
+  edge_range(const std::vector<edge_type>& edges, const STATE& src);
+  edge_iterator_type begin() const;
+  edge_iterator_type end() const;
+
+private:
+  const std::vector<edge_type>& edges_;
+  const STATE& src_;
+};
+
+
+// The actual graph
+// For the moment we only need three functionalities
+// add_edge: taking a src, dst and an edge label
+// states(): Must return a range over all states existing in the graph
+// out(s): Return the edge_range corresponding to s
+template<class STATE, class EDATA>
+class graph {
+public:
+  using edge_type = edge<STATE, EDATA>;
+  using edge_iterator_type = edge_iterator<STATE, EDATA>;
+  using edge_range_type = edge_range<STATE, EDATA>;
+  using edge_vector_type = std::vector<edge_type>;
+
+  graph() = default;
+  graph(const graph&) = default;
+  graph(graph&&) = default;
+  graph& operator=(const graph&) = default;
+  graph& operator=(graph&&) = default;
+
+  void add_edge(const STATE& src, const STATE& dst, const EDATA& data);
+  std::vector<STATE> states();
+  edge_range_type out(const STATE& s);
+
+private:
+  edge_vector_type edges_;
+};
+
