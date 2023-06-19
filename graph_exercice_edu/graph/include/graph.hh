@@ -24,10 +24,12 @@ class edge{
 public:
   using state_type = STATE;
   using data_type = EDATA;
-  edge(const state_type& src, const state_type& dst, const data_type& data);
-  const state_type& src() const;
-  const state_type& dst() const;
-  const data_type& data() const;
+  edge(const state_type& src, const state_type& dst, const data_type& data)
+    : src_(src), dst_(dst), data_(data)
+    {}
+  const state_type& src() const { return src_; }
+  const state_type& dst() const { return dst_; }
+  const data_type& data() const { return data_; }
 
 private:
   // An EDGE needs to know at least his dst and data, depending on your implementation
@@ -45,15 +47,24 @@ class edge_iterator{
 public:
   using edge_type = graph<STATE, EDATA>::edge_type;
 
-  edge_iterator(const typename std::vector<edge_type>::const_iterator& iter);
-  bool operator!=(const edge_iterator& rhs) const;
-  bool operator==(const edge_iterator& rhs) const;
-  edge_iterator& operator++();
-  const edge_type& operator*() const;
+  edge_iterator(const std::vector<edge_type>& iter, std::size_t current)
+    : iter_(iter), current_(current)
+    {}
+  bool operator!=(const edge_iterator& rhs) const { return current_ != rhs.current_; }
+  bool operator==(const edge_iterator& rhs) const { return !(*this != rhs); }
+  edge_iterator& operator++() {
+    ++current_;
+    return *this;
+  }
+
+  const edge_type& operator*() const {
+    return iter_[current_];
+  }
 
 
 private:
-  typename std::vector<edge_type>::const_iterator iter_;
+  std::vector<edge_type> iter_;
+  std::size_t current_;
 
 };
 
@@ -67,9 +78,17 @@ public:
   using edge_type = graph<STATE, EDATA>::edge_type;
   using edge_iterator_type = graph<STATE, EDATA>::edge_iterator_type;
 
-  edge_range(const std::vector<edge_type>& edges, const STATE& src);
-  edge_iterator_type begin() const;
-  edge_iterator_type end() const;
+  edge_range(const std::vector<edge_type>& edges, const STATE& src)
+    : edges_(edges), src_(src)
+    {}
+
+  edge_iterator_type begin() const {
+    return edge_iterator_type(edges_, 0);
+  }
+
+  edge_iterator_type end() const {
+    return edge_iterator_type(edges_, edges_.size());
+  }
 
 private:
   const std::vector<edge_type>& edges_;
@@ -96,11 +115,32 @@ public:
   graph& operator=(const graph&) = default;
   graph& operator=(graph&&) = default;
 
-  void add_edge(const STATE& src, const STATE& dst, const EDATA& data);
-  std::vector<STATE> states();
-  edge_range_type out(const STATE& s);
+  void add_edge(const STATE& src, const STATE& dst, const EDATA& data) {
+      edges_.emplace_back(src, dst, data);
+  }
+
+  std::vector<STATE> states() {
+    std::vector<STATE> states;
+    for (const auto& val : edges_){
+      if (std::find(states.begin(), states.end(), val.src()) == states.end()) {
+        states.push_back(val.src());
+      }
+    }
+
+    return states;
+  }
+
+  edge_range_type out(const STATE& s) {
+    filteredEdges.clear();
+    for (const auto& edge : edges_) {
+      if (edge.src() == s) {
+        filteredEdges.push_back(edge);
+      }
+    }
+    return edge_range_type(filteredEdges, s);
+  }
 
 private:
   edge_vector_type edges_;
+  edge_vector_type filteredEdges;
 };
-
