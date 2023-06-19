@@ -125,6 +125,10 @@ public:
       if (std::find(states.begin(), states.end(), val.src()) == states.end()) {
         states.push_back(val.src());
       }
+
+      if (std::find(states.begin(), states.end(), val.dst()) == states.end()) {
+        states.push_back(val.dst());
+      }
     }
 
     return states;
