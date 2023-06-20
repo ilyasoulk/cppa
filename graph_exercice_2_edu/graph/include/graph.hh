@@ -129,6 +129,7 @@ public:
   using edge_iterator_type = edge_iterator<STATE, EDATA>;
   using edge_range_type = edge_range<STATE, EDATA>;
   using edge_vector_type = std::vector<edge_type>;
+  using data_type = EDATA;
 
   graph() = default;
   graph(const graph&) = default;
@@ -178,6 +179,10 @@ public:
       this->add_edge(srcState, dstState, edgeData);
     }
     return;
+  }
+
+  edge_vector_type getEdges() {
+    return edges_;
   }
 
 private:
