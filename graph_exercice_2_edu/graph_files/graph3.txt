@@ -1,0 +1,8 @@
+unsigned str
+3 0 one
+0 1 abc
+2 1 xyz
+0 2 022
+1 0 a
+0 3 zero
+3 1 blub
