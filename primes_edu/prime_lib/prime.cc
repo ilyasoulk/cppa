@@ -10,7 +10,7 @@ int prime_number_range::iterator::operator*() const{
 }
 
 prime_number_range::iterator prime_number_range::iterator::operator++(){
-    curr++;
+    curr++; // PSC safety / segfault risk
     return *this;
 }
 
@@ -19,7 +19,7 @@ bool prime_number_range::iterator::operator!=(const prime_number_range::iterator
 }
 
 bool prime_number_range::iterator::operator==(const prime_number_range::iterator other) const  {
-    return !(*this == other);
+    return !(*this != other); // PSC ...
 }
 
 prime_number_range::iterator prime_number_range::begin(){
@@ -38,7 +38,7 @@ prime_number_range::prime_number_range(std::size_t count)
         bool flag;
         while(X < count){
             flag = true;
-            for(std::size_t j = 2; j <= std::sqrt(i); j++){
+            for(std::size_t j = 2; j <= std::sqrt(i); j++){ // PSC prefer ++j, compute sqrt outside of loop
                 if (i%j == 0){
                     flag = false;
                     break;

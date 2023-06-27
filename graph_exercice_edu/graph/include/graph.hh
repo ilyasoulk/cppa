@@ -1,5 +1,17 @@
 #pragma once
 #include <vector>
+#include <algorithm>
+
+// PSC General remarks
+// No doc
+// No concepts (for instance states need to be equality comparable)
+// Many actions very suboptimal
+// Graph 1
+// Correct: 9/9
+// Quality: 1/3
+// Doc: 0/3
+// Malus: Too late (-1.5), had to adept things to make it work (-1)
+// Tot 10/15 -> 11/20
 
 // Includes here
 
@@ -115,11 +127,11 @@ public:
   graph& operator=(const graph&) = default;
   graph& operator=(graph&&) = default;
 
-  void add_edge(const STATE& src, const STATE& dst, const EDATA& data) {
+  void add_edge(const STATE& src, const STATE& dst, const EDATA& data) { // PSC could be improved, think about universal reference
       edges_.emplace_back(src, dst, data);
   }
 
-  std::vector<STATE> states() {
+  std::vector<STATE> states() { // PSC Same and stop sharing too much with francois
     std::vector<STATE> states;
     for (const auto& val : edges_){
       if (std::find(states.begin(), states.end(), val.src()) == states.end()) {
@@ -134,7 +146,7 @@ public:
     return states;
   }
 
-  edge_range_type out(const STATE& s) {
+  edge_range_type out(const STATE& s) { // PSC this should not contruct something new but iterate over something that exists
     filteredEdges.clear();
     for (const auto& edge : edges_) {
       if (edge.src() == s) {

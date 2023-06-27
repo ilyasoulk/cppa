@@ -4,6 +4,23 @@
 #include <ranges>
 #include <algorithm>
 
+// PSC: rule of thumb: function < 5 lines should be inlined for perf
+
+// PSC GENERAL REMARKS
+// Good doc
+// No additional tests
+// Safety fail when "abusing" operator++ and vector::operator[] / operator*
+// Evaluation would ideally be lazy
+// Primes 1
+// Correct: 9/9
+// Quality: 1/3
+// Doc: 3/3
+// Primes 2
+// Correct: 0/3
+// Quality: 0/1
+// Doc: 0/1
+// Tot 13/20
+
 /**
  * @class prime_number_range
  * @brief Represents a range of prime numbers.
@@ -57,7 +74,7 @@ public:
          * @param other The iterator to compare with.
          * @return True if the iterators are not equal, false otherwise.
          */
-        bool operator!=(const iterator other) const;
+        bool operator!=(const iterator other) const; // PSC: better inlined friend construction
 
         /**
          * @brief Equality operator. Checks if two iterators are pointing to the same position. Time complexity : O(1)
@@ -84,7 +101,7 @@ public:
 
     /**
      * @brief Constructs a prime_number_range with the specified count.
-     * Time Complexity: O(X * log X) where X is the largest prime
+     * Time Complexity: O(X * log X) where X is the largest prime // PSC O(X * X^0.5)?
      *
      * The prime_number_range is initialized with the provided count, which
      * determines the number of prime numbers to generate within the range.
