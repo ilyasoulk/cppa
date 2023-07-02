@@ -49,8 +49,7 @@ void parse_and_apply_state_(std::ifstream& file, std::string dataType, int n_sta
 
 void parse_and_apply(const std::string& filename){
   // Implement me
-  std::string relativePath = "../" + filename;
-  std::ifstream inputFile(relativePath);
+  std::ifstream inputFile(filename);
   if (!inputFile) {
     std::cerr << "Error with filename: " << filename << std::endl;
     return;
@@ -104,6 +103,7 @@ int main() {
     parse_and_apply(filepath);
   }
 
+  parse_and_apply("graph_files/graph1.txt");
 
   return 0;
 }
