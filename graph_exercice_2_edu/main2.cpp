@@ -7,6 +7,15 @@
 
 
 // Something here?
+/**
+ * Parses the input file and applies state and edge operations based on the specified data types.
+ * O(n) with n being the number of edges(lines) in the file.
+ * @tparam STATE The state type.
+ * @tparam EDATA The edge data type.
+ * @param file The input file stream.
+ * @param n_states The number of states.
+ * @param n_edges The number of edges.
+ */
 template<typename STATE, typename EDATA>
 void parse_and_apply_state_edge_(std::ifstream& file, int n_states, int n_edges){
 
@@ -22,6 +31,14 @@ void parse_and_apply_state_edge_(std::ifstream& file, int n_states, int n_edges)
       std::cout << e.src() << " -- " << e.data() << " -> " << e.dst() << '\n';
 }
 
+/**
+ * Parses the input file and applies state operations based on the specified data type. O(1)
+ * @tparam STATE The state type.
+ * @param file The input file stream.
+ * @param dataType The data type of the edge.
+ * @param n_states The number of states.
+ * @param n_edges The number of edges.
+ */
 template<typename STATE>
 void parse_and_apply_state_(std::ifstream& file, std::string dataType, int n_states, int n_edges){
   if (dataType == "int") {
@@ -46,7 +63,10 @@ void parse_and_apply_state_(std::ifstream& file, std::string dataType, int n_sta
   // Maybe I take a template
 }
 
-
+/**
+ * Parses the input file and applies state and edge operations based on the specified file format. O(1)
+ * @param filename The name of the input file.
+ */
 void parse_and_apply(const std::string& filename){
   // Implement me
   std::ifstream inputFile(filename);

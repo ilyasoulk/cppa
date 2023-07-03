@@ -6,6 +6,19 @@
 #include <string.h>
 namespace
 {
+    /**
+     * @brief Calculates the shortest distance between two states in a graph.
+     * O(n^3) with n being the number of states
+     * @tparam GRAPH The graph type.
+     * @tparam STATE The state type.
+     * @tparam EDATA The data type associated with the edge.
+     * @param g The graph.
+     * @param src The source state.
+     * @param dst The destination state.
+     * @param zero The zero value of the data type.
+     * @param infinite The infinite value of the data type.
+     * @return The shortest distance between src and dst.
+     */
     template <template <class, class> class GRAPH, class STATE, class EDATA>
     EDATA shortest_distance_(GRAPH<STATE, EDATA> g, const STATE &src, const STATE &dst,
                              EDATA zero, EDATA infinite)
@@ -89,6 +102,15 @@ namespace
 }
 
 // API function
+/**
+ * @brief Calculates the shortest distance between two states in a graph.
+ * @tparam GRAPH The graph type.
+ * @tparam STATE The state type.
+ * @param g The graph.
+ * @param src The source state.
+ * @param dst The destination state.
+ * @return The shortest distance between src and dst.
+ */
 template <class GRAPH, class STATE>
 auto shortest_distance(GRAPH &g, const STATE &src, const STATE &dst)
 {
